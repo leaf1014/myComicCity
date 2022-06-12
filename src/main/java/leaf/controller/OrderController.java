@@ -37,6 +37,7 @@ public class OrderController {
 
     @GetMapping("/page/{pageNum}")
     public String page(@PathVariable("pageNum") int pageNum, Model model,HttpSession session) {
+        System.out.println(1);
         User user = (User) session.getAttribute("user");
         QueryWrapper<Order> queryWrapper = new QueryWrapper<Order>().eq("user_id",user.getUserId());
         Page<Order> orderPage = orderService.page(new Page<>(pageNum,4),queryWrapper);
