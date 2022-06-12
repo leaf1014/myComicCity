@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <title>吹雪组漫画会员注册页面</title>
+
+    <div th:replace="common/common :: baseLink"></div>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+            margin-top: 200px;
+        }
+
+        h1 a {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a th:replace="common/common :: logo"></a>
+        </div>
+    </h1>
+    <div style="margin-top: 0">
+        <div th:replace="common/common :: welcome_infomation"></div>
+    </div>
+</div>
+
+<div id="main">
+
+    <h1>欢迎回来&nbsp&nbsp<span th:text="${session.user.userName}" style="color:red;;"></span>&nbsp&nbsp<a th:href="@{/}">转到主页</a></h1>
+
+</div>
+
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>订单管理</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <div th:replace="common/common :: baseLink"></div>
+</head>
+<body>
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a th:replace="common/common :: logo"></a>
+        </div>
+    </h1>
+    <div th:replace="common/common :: manager"></div>
+</div>
+
+<div id="main">
+    <table>
+        <tr>
+            <td>订单号</td>
+            <td>日期</td>
+            <td>金额</td>
+            <td>状态</td>
+            <td>详情</td>
+            <td>发货</td>
+
+        </tr>
+        <td colspan="6" th:if="${pageResult.records.size() == 0}">当前并无订单</td>
+        <tr th:each="order : ${pageResult.records}">
+            <td>[[${order.orderId}]]</td>
+            <td>[[${order.createTime}]]</td>
+            <td>[[${order.price}]]</td>
+            <td th:if="${order.status == 0}">
+                未发货
+            </td>
+            <td th:if="${order.status == 1}">
+                已发货
+            </td>
+            <td th:if="${order.status == 2}">
+                已签收
+            </td>
+            <td><a th:href="@{/order/detail/{orderId}(orderId=${order.orderId})}">查看详情</a></td>
+            <td th:if="${order.status == 0}">
+                <a th:href="@{/manager/ship/{orderId}/{pageNum}(orderId=${order.orderId},pageNum=${pageResult.current})}">点击发货</a>
+            </td>
+            <td th:if="${order.status != 0}">
+                <a style="color: gray;cursor:not-allowed;">已经发货啦</a>
+            </td>
+            </tr>
+    </table>
+    <div  th:if="${pageResult != null}" style="margin-top: 20px" th:include="common/common :: page_nav"></div>
+
+</div>
+
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

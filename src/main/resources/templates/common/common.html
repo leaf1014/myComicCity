@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="baseLink">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/script/vue.js}"></script>
+    <script th:src="@{/script/jquery-1.7.2.js}"></script>
+<!--    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>-->
+</div>
+<a th:fragment="logo" th:href="@{/}" title="leaf的漫画城" style="font-size: 0">
+    leaf的漫画城
+</a>
+<div th:fragment="manager">
+    <a th:href="@{/manager/book/1}">图书管理</a>
+    <a th:href="@{/manager/order/1}">订单管理</a>
+    <a th:href="@{/}">返回商城</a>
+</div>
+<div th:fragment="welcome_infomation">
+    <span th:if="${session.user}"><strong>欢迎</strong>
+        <span class="um_span"><span th:text="${session.user.userName}" style="color:red;"></span>
+        </span><strong>光临吹雪组漫画</strong></span>
+    <span th:if="${session.user == null}"><strong>欢迎</strong>
+        <span class="um_span">您
+        </span><strong>光临吹雪组漫画</strong></span>
+    <span th:if="${user != null}">
+        <a href="orderServlet?action=page&userId=${sessionScope.user.id}">我的订单</a>
+        <a href="userServlet?&action=logout">注销</a>
+    </span>
+<!--    onclick="javascript:window.history.back(-1);"-->
+    <a  th:href="@{/}" style="cursor: pointer">返回</a>
+</div>
+<div th:fragment="page_nav">
+    <ul class="am-pagination">
+        <li><a th:href="@{${url} + '1'}">首页</a></li>
+        <li th:class="${pageResult.current==1}?'disabled' : ''"><a
+                th:href="@{${pageResult.current==1}?'##':${url} + ${pageResult.current-1}}">&laquo;</a>
+        </li>
+<!--        <li th:if="${(pageResult.current)-3 >=1}"><a-->
+<!--                th:href="@{${url} + ${pageResult.current-3}}"-->
+<!--                th:text="${pageResult.current -3}">1</a></li>-->
+        <li th:if="${(pageResult.current)-2 >=1}"><a
+                th:href="@{${url} + ${pageResult.current-2}}"
+                th:text="${pageResult.current -2}">1</a></li>
+        <li th:if="${pageResult.current-1 >=1}"><a
+                th:href="@{${url} + ${pageResult.current-1}}"
+                th:text="${pageResult.current - 1}">1</a></li>
+        <li class="active"><a href="#" th:text="${pageResult.current}" style="color:red;">1</a></li>
+        <li th:if="${(pageResult.current + 1) <= pageResult.pages}"><a
+                th:href="@{${url} + ${pageResult.current+1}}"
+                th:text="${pageResult.current +1}">1</a></li>
+        <li th:if="${pageResult.current+2 <=pageResult.pages}"><a
+                th:href="@{${url} + ${pageResult.current+2}}"
+                th:text="${pageResult.current +2}">1</a></li>
+<!--        <li th:if="${pageResult.current+3 <=pageResult.pages}"><a-->
+<!--                th:href="@{${url} + ${pageResult.current+3}}"-->
+<!--                th:text="${pageResult.current +3}">1</a></li>-->
+        <li th:class="${pageResult.current==pageResult.pages}?'disabled' : ''">
+            <a th:href="@{${pageResult.current==pageResult.pages}?'##' : ${url} + ${pageResult.current+1}}">&raquo;</a>
+        </li>
+        <li><a th:href="@{${url} + ${pageResult.pages}}">末页</a></li>
+    </ul>
+</div>
+<div th:fragment="copyright">
+    <span>leaf.Copyright &copy;2022</span>
+</div>
+</html>

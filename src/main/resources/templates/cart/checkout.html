@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">>
+<head>
+    <meta charset="UTF-8">
+    <title>结算页面</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <div th:replace="common/common :: baseLink"></div>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a th:replace="common/common :: logo"></a>
+        </div>
+    </h1>
+    <span class="wel_word">结算</span>
+    <div style="margin-top: 0">
+        <div th:include="common/common :: welcome_infomation"></div>
+    </div>
+</div>
+
+<div id="main">
+
+    <h1>你的订单已结算，订单号为[[${orderId}]]</h1>
+
+
+</div>
+
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

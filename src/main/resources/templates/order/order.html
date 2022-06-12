@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <div th:replace="common/common :: baseLink"></div>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a th:replace="common/common :: logo"></a>
+        </div>
+    </h1>
+    <span class="wel_word">我的订单</span>
+    <div th:include="common/common :: welcome_infomation"></div>
+</div>
+
+<div id="main">
+
+    <table style="margin-top: 50px">
+        <tr>
+            <td>订单号</td>
+            <td>日期</td>
+            <td>金额</td>
+            <td>状态</td>
+            <td>详情</td>
+            <td>签收订单</td>
+        </tr>
+        <div th:if="${pageResult.records.size() == 0}">
+            <td colspan="6">亲，当前订单为空!&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a th:href="@{/}"
+                                                                                 style="cursor:pointer">点此前往浏览商品</a>
+            </td>
+        </div>
+        <tr th:each="order : ${pageResult.records}">
+            <td>[[${order.orderId}]]</td>
+            <td>[[${order.createTime}]]</td>
+            <td>[[${order.price}]]</td>
+            <td th:if="${order.status == 0}">
+                未发货
+            </td>
+            <td th:if="${order.status == 1}">
+                已发货
+            </td>
+            <td th:if="${order.status == 2}">
+                已签收
+            </td>
+            <td><a th:href="@{/order/detail/{orderId}(orderId=${order.orderId})}">查看详情</a></td>
+            <td th:if="${order.status == 0}"><a style="color: gray;cursor:not-allowed;">别急，还没发货！</a></td>
+            <td th:if="${order.status == 1}"><a th:href="@{/order/receipt/{orderId}/{pageNum}(orderId=${order.orderId},pageNum=${pageResult.current})}">确认收货</a></td>
+            <td th:if="${order.status == 2}"><a style="color: gray;cursor:not-allowed;">已经签收过啦！</a></td>
+        </tr>
+    </table>
+    <div  style="margin-top: 25px" th:include="common/common :: page_nav"></div>
+</div>
+
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

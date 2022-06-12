@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>吹雪组漫画会员注册页面</title>
+		<link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+		<div th:replace="common/common :: baseLink"></div>
+		<script type="text/javascript">
+			// 页面加载完成之后
+			$(function () {
+				// 给验证码绑定切换事件
+				$('#code_img').click(function () {
+					this.src = '/kaptcha?d='+new Date()*1;
+				})
+				// 给注册绑定单击事件
+				$("#sub_btn").click(function () {
+					// 验证用户名：必须由字母，数字下划线组成，并且长度为5到12位
+					//1 获取用户名输入框里的内容
+					var usernameText = $("#userName").val();
+					console.log(usernameText)
+					//2 创建正则表达式对象
+					var usernamePatt = /^\w{3,12}$/;
+					//3 使用test方法验证
+					if (!usernamePatt.test(usernameText)) {
+						//4 提示用户结果
+						$("span.errorMsg").text("用户名不合法！");
+
+					}
+
+					// 验证密码：必须由字母，数字下划线组成，并且长度为5到12位
+					//1 获取用户名输入框里的内容
+					var passwordText = $("#password").val();
+					//2 创建正则表达式对象
+					var passwordPatt = /^\w{5,12}$/;
+					//3 使用test方法验证
+					if (!passwordPatt.test(passwordText)) {
+						//4 提示用户结果
+						$("span.errorMsg").text("密码不合法！");
+
+					}
+
+					// 验证确认密码：和密码相同
+					//1 获取确认密码内容
+					var repwdText = $("#rePassword").val();
+					//2 和密码相比较
+					if (repwdText != passwordText) {
+						//3 提示用户
+						$("span.errorMsg").text("确认密码和密码不一致！");
+
+					}
+
+					// 邮箱验证：xxxxx@xxx.com
+					//1 获取邮箱里的内容
+					var emailText = $("#email").val();
+					//2 创建正则表达式对象
+					var emailPatt = /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/;
+					//3 使用test方法验证是否合法
+					if (!emailPatt.test(emailText)) {
+						//4 提示用户
+						$("span.errorMsg").text("邮箱格式不合法！");
+
+					}
+
+					// 验证码：现在只需要验证用户已输入。因为还没讲到服务器。验证码生成。
+					var codeText = $("#code").val();
+
+					//去掉验证码前后空格
+					// alert("去空格前：["+codeText+"]")
+					codeText = $.trim(codeText);
+					// alert("去空格后：["+codeText+"]")
+
+					if (codeText == null || codeText == "") {
+						//4 提示用户
+						$("span.errorMsg").text("验证码不能为空！");
+
+					}
+
+					// 去掉错误信息
+					$("span.errorMsg").text("");
+
+				});
+
+			});
+
+		</script>
+	<style type="text/css">
+		.login_form{
+			height:420px;
+			margin-top: 25px;
+		}
+
+	</style>
+	</head>
+	<body>
+		<div id="login_header">
+			<h1 style="display: inline">
+				<div class="logo_img" style="margin-top: 0px;">
+					<a th:replace="common/common :: logo"></a>
+				</div>
+			</h1>
+		</div>
+
+			<div class="login_banner">
+
+				<div id="l_content">
+					<span class="login_word">欢迎注册</span>
+				</div>
+
+				<div id="content">
+					<div class="login_form">
+						<div class="login_box">
+							<div class="tit">
+								<h1>注册吹雪组漫画会员</h1>
+								<span class="errorMsg" th:if="${errMessage}" th:text="${errMessage}"></span>
+								<span class="errorMsg" th:if="${errMessage == null}"></span>
+							</div>
+							<div class="form">
+								<form th:action="@{/register}" method="post">
+									<label for="userName">用户名称：</label>
+									<input class="itxt" type="text" placeholder="请输入用户名"
+										   autocomplete="off" tabindex="1" name="userName" id="userName"
+									       th:value="${userName}"/>
+									<br />
+									<br />
+									<label for="password">用户密码：</label>
+									<input class="itxt" type="password" placeholder="请输入密码"
+										   autocomplete="off" tabindex="1" name="password" id="password" />
+									<br />
+									<br />
+									<label for="rePassword">确认密码：</label>
+									<input class="itxt" type="password" placeholder="确认密码"
+										   autocomplete="off" tabindex="1" name="rePassword" id="rePassword" />
+									<br />
+									<br />
+									<label for="email">电子邮件：</label>
+									<input class="itxt" type="text" placeholder="请输入邮箱地址"
+										   th:value="${email}"
+										   autocomplete="off" tabindex="1" name="email" id="email" />
+									<br />
+									<br />
+									<label for="code">验证码：</label>
+									<input class="itxt" type="text" name="code" style="width: 100px;" id="code"/>
+									<img id="code_img" alt="" th:src="@{/kaptcha}"
+										 style="float: right; margin-right: 40px;width: 110px;height: 30px;margin-top: 5px"
+									>
+									<br />
+									<br />
+									<input type="submit" value="注册" id="sub_btn" />
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		<div id="bottom" th:include="common/common :: copyright"></div>
+	</body>
+</html>

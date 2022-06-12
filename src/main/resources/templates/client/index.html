@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>吹雪漫画组</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <div th:replace="common/common :: baseLink"></div>
+</head>
+<body>
+<div id="header">
+    <div class="logo_img">
+        <a th:replace="common/common :: logo"></a>
+    </div>
+    <span class="wel_word">首页</span>
+    <div>
+        <span th:if="${session.user == null}">
+            <a th:href="@{/login}">登录</a> |
+            <a th:href="@{/register}">注册</a>
+        </span>
+        <span th:if="${session.user}">
+            <span><strong>欢迎</strong><span class="um_span" th:text="${session.user.userName}"></span><strong>光临吹雪漫画组</strong></span>
+            <a th:href="@{/order}">我的订单</a>
+            <a th:href="@{/logout}">注销</a>
+        </span>
+        <a th:href="@{/cart}">购物车</a>
+        <a th:href="@{/manager}">后台管理</a>
+    </div>
+</div>
+<div id="main">
+    <div id="book">
+        <div class="book_cond">
+            <form th:action="@{/bookByPrice}" method="post">
+                价格：<input id="min" type="text" name="min"> 元 -
+                <input id="max" type="text" name="max"> 元
+                <input type="submit" value="查询" style="cursor:pointer"/>
+            </form>
+        </div>
+        <div style="text-align: center">
+            <div th:if="${session.cart == null}">
+                <div>
+                    <span style="color: red">当前购物车为空</span>
+                </div>
+            </div>
+            <div th:if="${session.cart != null}">
+                <span>您的购物车中有<i style="color: red">[[${session.cart.totalCount}]]</i>件商品</span>
+                <div th:if="${session.lastName != null}">
+                    您刚刚将<span style="color: red">[[${session.lastName}]]</span>加入到了购物车中
+                </div>
+            </div>
+        </div>
+        <div th:if="${pageResult != null}">
+            <div class="b_list" th:each=" book : ${pageResult.records}">
+                <div class="img_div">
+                    <img class="book_img" alt="" th:src="@{/{imgPath}(imgPath = ${book.imgPath})}"/>
+                </div>
+                <div class="book_info" style="padding-left: 20px">
+                    <div class="book_name">
+                        <span class="sp1">书名:</span>
+                        <span class="sp2">[[${book.title}]]</span>
+                    </div>
+                    <div class="book_author">
+                        <span class="sp1">作者:</span>
+                        <span class="sp2">[[${book.author}]]</span>
+                    </div>
+                    <div class="book_price">
+                        <span class="sp1">价格:</span>
+                        <span class="sp2">[[${book.price}]]</span>
+                    </div>
+                    <div class="book_sales">
+                        <span class="sp1">销量:</span>
+                        <span class="sp2">[[${book.sales}]]</span>
+                    </div>
+                    <div class="book_amount">
+                        <span class="sp1">库存:</span>
+                        <span class="sp2">[[${book.stock}]]</span>
+                    </div>
+                    <div class="book_add">
+                        <button th:onclick="|login()|" th:if="${session.user==null}">加入购物车</button>
+                        <button th:onclick="|addCart('${book.bookId}','${pageResult.current}')|" th:unless="${session.user==null}">加入购物车</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${pageResult.records.size() == 0}" style="text-align: center;color: red;font-weight: 700;margin-top: 100px">没有符合价格的书籍，请您重新输入哦~</div>
+    </div>
+    <div  th:if="${pageResult != null}" th:include="common/common :: page_nav"></div>
+</div>
+<script>
+    function addCart(bookId,pageNum){
+        window.location.href='/cart/'+bookId + '/' + pageNum;
+    }
+
+    function login(){
+        window.location.href='/login';
+    }
+</script>
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

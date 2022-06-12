@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <div th:replace="common/common :: baseLink"></div>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a th:replace="common/common :: logo"></a>
+        </div>
+    </h1>
+    <div th:replace="common/common :: manager"></div>
+</div>
+
+<div id="main">
+    <h1>欢迎管理员进入后台管理系统</h1>
+</div>
+
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

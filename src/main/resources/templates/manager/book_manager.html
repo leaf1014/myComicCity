@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <div th:replace="common/common :: baseLink"></div>
+</head>
+<body>
+
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a th:replace="common/common :: logo"></a>
+        </div>
+    </h1>
+    <div th:replace="common/common :: manager"></div>
+</div>
+
+<div id="main">
+    <table style="margin-right: 50px">
+        <tr>
+            <td>名称</td>
+            <td>作者</td>
+            <td>价格</td>
+            <td>销量</td>
+            <td>库存</td>
+            <td colspan="2">操作</td>
+        </tr>
+        <tr th:each="book : ${pageResult.records}">
+            <td>[[${book.title}]]</td>
+            <td>[[${book.author}]]</td>
+            <td>[[${book.price}]]</td>
+            <td>[[${book.sales}]]</td>
+            <td>[[${book.stock}]]</td>
+            <td><a th:href="@{/manager/update/{bookId}/{pageNum}(bookId=${book.bookId},pageNum=${pageResult.current})}">修改</a></td>
+            <td><a th:href="@{/manager/delete/{bookId}/{pageNum}(bookId=${book.bookId},pageNum=${pageResult.current})}">删除</a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><a th:href="@{/manager/add/{pages}(pages=${pageResult.pages})}">添加图书</a></td>
+        </tr>
+    </table>
+    <div  th:if="${pageResult != null}" style="margin-top: 25px" th:include="common/common :: page_nav"></div>
+</div>
+
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

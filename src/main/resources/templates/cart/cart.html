@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <div th:replace="common/common :: baseLink"></div>
+</head>
+<body>
+
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a th:replace="common/common :: logo"></a>
+        </div>
+    </h1>
+    <span class="wel_word">购物车</span>
+    <div th:include="common/common :: welcome_infomation"></div>
+</div>
+
+<div id="main">
+
+    <table>
+        <tr>
+            <td>商品名称</td>
+            <td>数量</td>
+            <td>单价</td>
+            <td>金额</td>
+            <td>操作</td>
+        </tr>
+        <div th:if="${session.cart == null or session.cart.totalCount == 0}">
+            <td colspan="5">亲，当前购物车为空!&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a th:href="@{/}"
+                                                                                 style="cursor:pointer">点此前往浏览商品</a>
+            </td>
+        </div>
+        <div th:if="${session.cart != null and session.cart.totalCount != 0}">
+            <tr style="margin-top: 10px" th:each="cartItem : ${pageResult.records}">
+                <td>[[${cartItem.cartItemTitle}]]</td>
+                <td class="count">
+                    <ul class="cartUl">
+                        <li class="addCount" th:onclick="addCount([[${cartItem.cartItemTitle}]],[[${pageResult.current}]])"
+                            >
+                            +
+                        </li>
+                        <li class="count">
+                            [[${cartItem.count}]]
+                        </li>
+                        <li class="subCount" th:onclick="subCount([[${cartItem.cartItemTitle}]],[[${pageResult.current}]])">
+                            -
+                        </li>
+                    </ul>
+                </td>
+                <td>[[${cartItem.price}]]</td>
+                <td>[[${cartItem.price * cartItem.count}]]</td>
+                <td><a style="cursor:pointer" th:onclick="myDelete([[${cartItem.cartItemTitle}]],[[${cartItem.cartItemId}]],[[${pageResult.current}]])">删除</a></td>
+            </tr>
+        </div>
+
+    </table>
+    <div  th:if="${pageResult != null}" style="margin-top: 25px" th:include="common/common :: page_nav"></div>
+    <div class="cart_info">
+        <span th:if="${session.cart != null and session.cart.totalCount != 0}">
+            <span class="cart_span">购物车中共有<span class="b_count">[[${session.cart.totalCount}]]</span>件商品</span>
+            <span class="cart_span">总金额<span class="b_price">[[${session.cart.totalPrice}]]</span>元</span>
+            <span class="cart_span"><a  style="cursor:pointer" th:onclick="|myClear()|">清空购物车</a></span>
+            <span class="cart_span"><a th:href="@{/order/checkOut}">去结账</a></span>
+        </span>
+    </div>
+
+</div>
+<script>
+    function addCount(title,pageNum) {
+        window.location.href = "/cart/addCount/" + title + "/" + pageNum;
+    }
+
+    function subCount(title,pageNum) {
+        window.location.href = "/cart/subCount/" + title + "/" + pageNum;
+    }
+
+    function myDelete(title,cartItemId,pageNum) {
+        let flag = confirm("你确定要删除【" + title +"】吗?")
+        if (flag) {
+            window.location.href = "/cart/delete/" + cartItemId + '/' + pageNum;
+        }
+    }
+
+    function myClear() {
+        let flag = confirm("您确定要清空吗");
+        if (flag) {
+            window.location.href = "/cart/clear";
+        }
+    }
+</script>
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

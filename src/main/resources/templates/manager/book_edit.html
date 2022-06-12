@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑图书</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <div th:replace="common/common :: baseLink"></div>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+            margin-top: 200px;
+        }
+
+        h1 a {
+            color: red;
+        }
+
+        input {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a th:replace="common/common :: logo"></a>
+        </div>
+    </h1>
+    <div th:replace="common/common :: manager"></div>
+</div>
+
+<div id="main">
+    <form th:action="@{/manager/book}" method="post">
+        <input type="hidden" name="bookId" th:value="${book.bookId}"/>
+        <input type="hidden" name="pageNum" th:value="${pageNum}">
+        <table>
+            <tr>
+                <td>名称</td>
+                <td>作者</td>
+                <td>价格</td>
+                <td>销量</td>
+                <td>库存</td>
+                <td colspan="2">操作</td>
+            </tr>
+            <tr>
+                <td><input name="title" type="text" th:value="${book.title}"/></td>
+                <td><input name="author" type="text" th:value="${book.author}"/></td>
+                <td><input name="price" type="text" th:value="${book.price}"/></td>
+                <td><input name="sales" type="text" th:value="${book.sales}"/></td>
+                <td><input name="stock" type="text" th:value="${book.stock}"/></td>
+                <td><input type="submit" value="提交"/></td>
+            </tr>
+        </table>
+    </form>
+
+
+</div>
+
+<div id="bottom" th:include="common/common :: copyright"></div>
+</body>
+</html>

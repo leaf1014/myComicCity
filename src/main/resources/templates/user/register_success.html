@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <title>吹雪组漫画会员注册页面</title>
+    <!--写base标签，永远固定相对路径跳转的结果-->
+    <%@ include file="/pages/common/route.jsp"%>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+            margin-top: 200px;
+        }
+
+        h1 a {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <h1 style="display: inline">
+        <div class="logo_img">
+            <a href="index.jsp" title="leaf的书店" style="font-size: 0">
+                leaf的书店
+            </a>
+        </div>
+    </h1>
+    <span class="wel_word"></span>
+    <div style="margin-top: 0">
+        <%@ include file="/pages/common/welcome_information.jsp"%>
+    </div>
+</div>
+
+<div id="main">
+
+    <h1>注册成功! <a href="index.jsp">转到主页</a></h1>
+
+</div>
+
+<div id="bottom">
+    <%@ include file="/pages/common/copyright.jsp"%>
+</div>
+</body>
+</html>
