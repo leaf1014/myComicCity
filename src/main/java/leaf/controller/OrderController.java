@@ -39,6 +39,7 @@ public class OrderController {
     public String page(@PathVariable("pageNum") int pageNum, Model model,HttpSession session) {
         System.out.println(1);
         System.out.println(2);
+        System.out.println("hot-fix commit");
         System.out.println("master commit");
         User user = (User) session.getAttribute("user");
         QueryWrapper<Order> queryWrapper = new QueryWrapper<Order>().eq("user_id",user.getUserId());
