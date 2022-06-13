@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MyComicCityApplication {
 
     public static void main(String[] args) {
+        int a = 1;
         SpringApplication.run(MyComicCityApplication.class, args);
     }
 
